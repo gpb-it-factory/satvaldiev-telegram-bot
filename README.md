@@ -19,15 +19,18 @@ ParticipantFontName Impact
 ParticipantFontSize 25
 ParticipantFontColor #EEEBDC
 }
+participant Client
 participant Frontend 
 participant Middle 
 participant Backend 
 
 
+Client -> Frontend: HTTP
 Frontend -> Middle: HTTP
 Middle -> Backend: HTTP
 Backend --> Middle: HTTP
 Middle --> Frontend: HTTP
+Frontend --> Client: HTTP
 @enduml
 ```
 
