@@ -15,13 +15,28 @@ public class MessageServiceImpl implements MessageService {
             String firstName = update.getMessage().getChat().getFirstName();
             String responseText;
             switch (text) {
-                case "/start" -> responseText = String.format("Привет, %s!", firstName);
-                case "/stop" -> responseText = String.format("Пока, %s!", firstName);
-                case "/ping" -> responseText = "pong";
+                case "/start" -> responseText = startCommand(firstName);
+                case "/stop" -> responseText = stopCommand(firstName);
+                case "/ping" -> responseText = pingCommand();
                 default -> responseText = "Неизвестная команда";
             }
             return new SendMessage(String.valueOf(chatId), responseText);
         }
         return null;
+    }
+
+    @Override
+    public String startCommand(String firstName) {
+        return String.format("Привет, %s!", firstName);
+    }
+
+    @Override
+    public String stopCommand(String firstName) {
+        return String.format("Пока, %s!", firstName);
+    }
+
+    @Override
+    public String pingCommand() {
+        return "pong";
     }
 }

@@ -36,17 +36,23 @@ Frontend --> Client: HTTP
 
 ![Image](image.png)
 
-### Подготовка к запуску бота
+
+### Локальный запуск 
 1. Склонировать проект
-2. Внести имя и токен вашего Telegram бота в src/main/resources/application.yml
-### Локальный запуск через Intellij Idea
-1. Выбрать файл src/main/java/ru/satvaldiev/telegrambot/TelegramBotApplication.java
-2. Нажать зеленый треугольник слева от имени класса
-### Локальный запуск через консоль
-1. Перейти в корневую папку проекта
-2. Выполнить команды ___./gradlew --stop___ и ___./gradlew clean build___
-3. Перейти в папку build/libs/
-4. Выполнить команду ___java -jar TelegramBot-0.0.1-SNAPSHOT.jar___
+   ```
+   git clone https://github.com/gpb-it-factory/satvaldiev-telegram-bot.git
+   ```
+2. Перейти в корневую папку проекта ___satvaldiev-telegram-bot___
+3. Выполнить команду в Windows PowerShell (вместо ___bot_name___ и ___bot_token___ прописать ваши креды):
+   ```
+   $Env:BOT_NAME = "bot_name"; $Env:BOT_TOKEN = "bot_token"; ./gradlew bootRun
+   ```
+4. Если через bash, то выполнить команду (вместо ___bot_name___ и ___bot_token___ прописать ваши креды): 
+   ```
+   BOT_NAME={bot_name} BOT_TOKEN={bot_token} ./gradlew bootRun
+   ```
+
+
 ### Поддерживаемые команды бота
 - ___/start___ (ответ - "Привет, firstName!")
 - ___/stop___ (ответ - "Пока, firstName!")
