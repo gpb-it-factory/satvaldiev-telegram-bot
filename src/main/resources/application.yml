@@ -1,6 +1,8 @@
 bot:
-  name: ${BOT_NAME}
-  token: ${BOT_TOKEN}
+#  name: ${BOT_NAME}
+#  token: ${BOT_TOKEN}
+  name: MyFirstSpringDemo_bot
+  token: 7197862705:AAGj6ZXbpc-qJsD_E59p9YlF7H4-n8Pc1gI
 
 
 restclient:

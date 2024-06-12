@@ -14,7 +14,9 @@ public class RestClientConfig {
     }
 
     @Bean
-    public RestClient restClient() {
-        return RestClient.create(restClientProperties.url());
+    public RestClient restClient(RestClient.Builder builder) {
+        return builder
+                .baseUrl(restClientProperties.url())
+                .build();
     }
 }
