@@ -17,13 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import ru.satvaldiev.telegrambot.client.impl.MiddleClientImpl;
 import ru.satvaldiev.telegrambot.response.Response;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@RestClientTest(MiddleClient.class)
-class MiddleClientTest {
+@RestClientTest(MiddleClientImpl.class)
+class MiddleClientImplTest {
     @Autowired
     MockRestServiceServer server;
     @Autowired
