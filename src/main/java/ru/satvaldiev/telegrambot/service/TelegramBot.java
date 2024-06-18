@@ -14,19 +14,19 @@ import ru.satvaldiev.telegrambot.config.properties.BotProperties;
 public class TelegramBot extends TelegramLongPollingBot {
     private static final Logger LOG = LoggerFactory.getLogger(TelegramBot.class);
     private final BotProperties botProperties;
-    private final MessageService messageService;
+    private final MessageHandler messageHandler;
 
     @Autowired
-    public TelegramBot(BotProperties botProperties, MessageService messageService) {
+    public TelegramBot(BotProperties botProperties, MessageHandler messageHandler) {
         super(botProperties.token());
         this.botProperties = botProperties;
-        this.messageService = messageService;
+        this.messageHandler = messageHandler;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            SendMessage sendMessage = messageService.messageReceiver(update);
+            SendMessage sendMessage = messageHandler.messageReceiver(update);
             execute(sendMessage);
         } catch (TelegramApiException e) {
             LOG.error("Ошибка отправки сообщения пользователю", e);
