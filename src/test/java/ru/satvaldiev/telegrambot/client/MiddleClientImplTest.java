@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
@@ -81,6 +83,57 @@ class MiddleClientImplTest {
                 .andRespond(withSuccess(objectMapper.writeValueAsString(responseExpected), MediaType.APPLICATION_JSON));
 
         Response responseActual = middleClient.createAccount(update);
+        Assertions.assertEquals(responseExpected.message(), responseActual.message());
+    }
+    @Test
+    void responseWithSuccessfulCurrentBalanceGetting() throws JsonProcessingException {
+        Response responseExpected = new Response("5000.00");
+
+        this.server
+                .expect(requestTo(baseUrl + "/users/" + update.getMessage().getFrom().getId() + "/accounts"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(responseExpected), MediaType.APPLICATION_JSON));
+
+        Response responseActual = middleClient.getCurrentBalance(update);
+        Assertions.assertEquals(responseExpected.message(), responseActual.message());
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"/transfer", "/transfer Anatoliy", "/transfer Anatoliy Nikolaevich 500", "/transfer Anatoliy 500. 00"})
+    void responseWhenTransferCommandDoesNotConsistOfThreeWords(String message) throws JsonProcessingException {
+        Response responseExpected = new Response("Команда введена в неправильном формате");
+        update.getMessage().setText(message);
+
+        Response responseActual = middleClient.transfer(update);
+        Assertions.assertEquals(responseExpected.message(), responseActual.message());
+    }
+    @ParameterizedTest
+    @CsvSource(value = {"/transferr Anatoliy 500", "/transferAnatoliy Nikolaevich 500"})
+    void responseWhenTransferCommandIsIncorrect(String message) throws JsonProcessingException {
+        Response responseExpected = new Response("Команда введена в неправильном формате");
+        update.getMessage().setText(message);
+
+        Response responseActual = middleClient.transfer(update);
+        Assertions.assertEquals(responseExpected.message(), responseActual.message());
+    }
+    @ParameterizedTest
+    @CsvSource(value = {"/transfer Anatoliy +500.00", "/transfer Anatoliy ДвестиРублей", "/transfer Anatoliy 200р"})
+    void responseWhenTransferCommandWithIncorrectAmount(String message) throws JsonProcessingException {
+        Response responseExpected = new Response("Сумма может состоять только из чисел и знака \".\"");
+        update.getMessage().setText(message);
+
+        Response responseActual = middleClient.transfer(update);
+        Assertions.assertEquals(responseExpected.message(), responseActual.message());
+    }
+    @Test
+    void responseWhenTransferCommandWithCorrectAmountIsSuccessful() throws JsonProcessingException {
+        update.getMessage().setText("/transfer Anatoliy 500.00");
+        Response responseExpected = new Response("Перевод средств выполнен успешно");
+
+        this.server
+                .expect(requestTo(baseUrl + "/users/transfers"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(responseExpected), MediaType.APPLICATION_JSON));
+
+        Response responseActual = middleClient.transfer(update);
         Assertions.assertEquals(responseExpected.message(), responseActual.message());
     }
 }

@@ -70,6 +70,26 @@ class MessageServiceImplTest {
 
         Assertions.assertEquals("Поздравляем! Вы открыли счет \"Акционный\"", responseText);
     }
+    @Test
+    void responseTextToCurrentBalanceCommand() {
+
+        when(middleClient.getCurrentBalance(update))
+                .thenReturn(new Response("5000.00"));
+
+        String responseText = messageService.getCurrentBalanceCommand(update);
+
+        Assertions.assertEquals("5000.00", responseText);
+    }
+    @Test
+    void responseTextToTransferCommand() {
+
+        when(middleClient.transfer(update))
+                .thenReturn(new Response("Перевод средств выполнен успешно"));
+
+        String responseText = messageService.transferCommand(update);
+
+        Assertions.assertEquals("Перевод средств выполнен успешно", responseText);
+    }
 
     @Test
     void responseTextWithNullResponseBodyFromMiddleService() {

@@ -96,6 +96,26 @@ class MessageHandlerTest {
         Assertions.assertEquals("Поздравляем! Вы открыли счет \"Акционный\"", responseText);
     }
     @Test
+    void responseTextWithTransferCommand() {
+        message.setText("/transfer Anatoliy 500.00");
+        when(messageService.transferCommand(update))
+                .thenReturn("Перевод средств выполнен умпешно");
+
+        String responseText = messageHandler.messageReceiver(update).getText();
+
+        Assertions.assertEquals("Перевод средств выполнен умпешно", responseText);
+    }
+    @Test
+    void responseTextWithCurrentBalanceCommand() {
+        message.setText("/currentbalance");
+        when(messageService.getCurrentBalanceCommand(update))
+                .thenReturn("5000.00");
+
+        String responseText = messageHandler.messageReceiver(update).getText();
+
+        Assertions.assertEquals("5000.00", responseText);
+    }
+    @Test
     void responseTextWithUnknownCommand() {
 
         message.setText("/dropTelegram");

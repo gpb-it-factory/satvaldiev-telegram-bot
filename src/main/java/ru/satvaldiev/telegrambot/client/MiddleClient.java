@@ -7,4 +7,8 @@ public interface MiddleClient {
     Response registerUser(Update update);
 
     Response createAccount(Update update);
+
+    Response getCurrentBalance(Update update);
+
+    Response transfer(Update update);
 }
