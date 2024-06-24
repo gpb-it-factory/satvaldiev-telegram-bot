@@ -99,11 +99,11 @@ class MessageHandlerTest {
     void responseTextWithTransferCommand() {
         message.setText("/transfer Anatoliy 500.00");
         when(messageService.transferCommand(update))
-                .thenReturn("Перевод средств выполнен умпешно");
+                .thenReturn("Перевод средств выполнен успешно");
 
         String responseText = messageHandler.messageReceiver(update).getText();
 
-        Assertions.assertEquals("Перевод средств выполнен умпешно", responseText);
+        Assertions.assertEquals("Перевод средств выполнен успешно", responseText);
     }
     @Test
     void responseTextWithCurrentBalanceCommand() {
