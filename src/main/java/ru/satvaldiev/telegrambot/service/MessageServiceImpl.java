@@ -29,6 +29,16 @@ public class MessageServiceImpl implements MessageService {
         Response responseBody = middleClient.createAccount(update);
         return responseTextGenerator(responseBody);
     }
+    @Override
+    public String getCurrentBalanceCommand(Update update) {
+        Response responseBody = middleClient.getCurrentBalance(update);
+        return responseTextGenerator(responseBody);
+    }
+    @Override
+    public String transferCommand(Update update) {
+        Response responseBody = middleClient.transfer(update);
+        return responseTextGenerator(responseBody);
+    }
     public String responseTextGenerator(Response responseBody) {
         if (responseBody == null || responseBody.message() == null) {
             return "Непредвиденная ошибка, повторите позже";

@@ -19,11 +19,16 @@ public class MessageHandler {
             long chatId = message.getChatId();
             String firstName = message.getChat().getFirstName();
             String responseText;
+            if (text.startsWith("/transfer")) {
+                responseText = messageService.transferCommand(update);
+                return new SendMessage(String.valueOf(chatId), responseText);
+            }
             switch (text) {
                 case "/start" -> responseText = messageService.startCommand(firstName);
                 case "/stop" -> responseText = messageService.stopCommand(firstName);
                 case "/register" -> responseText = messageService.registerCommand(update);
                 case "/createaccount" -> responseText = messageService.createAccountCommand(update);
+                case "/currentbalance" -> responseText = messageService.getCurrentBalanceCommand(update);
                 default -> responseText = "Неизвестная команда";
             }
             return new SendMessage(String.valueOf(chatId), responseText);

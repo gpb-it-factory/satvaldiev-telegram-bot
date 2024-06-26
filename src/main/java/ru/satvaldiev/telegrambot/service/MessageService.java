@@ -8,4 +8,6 @@ public interface MessageService {
     String stopCommand(String firstName);
     String registerCommand(Update update);
     String createAccountCommand(Update update);
+    String getCurrentBalanceCommand(Update update);
+    String transferCommand(Update update);
 }
